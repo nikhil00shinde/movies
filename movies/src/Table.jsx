@@ -1,4 +1,5 @@
 import Pagination from "./Pagination";
+import "./Table.css";
 
 let Table = (props) => {
 	console.log(props);
@@ -13,6 +14,8 @@ let Table = (props) => {
 			return el;
 		}
 	});
+
+	let arrToBeUsedInTable = filteredMoviesArr.slice(0, 4);
 	return (
 		<>
 			<div class="row">
@@ -29,16 +32,28 @@ let Table = (props) => {
 							</tr>
 						</thead>
 						<tbody>
-							{filteredMoviesArr.map((el) => {
+							{arrToBeUsedInTable.map((el) => {
 								return (
 									<tr key={el._id}>
 										<td>{el.title}</td>
 										<td>{el.genre.name}</td>
 										<td>{el.numberInStock}</td>
 										<td>{el.dailyRentalRate}</td>
-										<td>like</td>
+										<td
+											onClick={(e) => {
+												props.toggleLike(el._id);
+											}}
+										>
+											{el.liked ? (
+												<span class="material-icons-outlined">favorite</span>
+											) : (
+												<span class="material-icons-outlined">
+													favorite_border
+												</span>
+											)}
+										</td>
 										<td>
-											<button>Delete</button>
+											<button className="table-delete-btn">Delete</button>
 										</td>
 									</tr>
 								);
