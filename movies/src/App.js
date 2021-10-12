@@ -15,14 +15,11 @@ class App extends React.Component {
 		this.setState({ selectedFilter: filter });
 	};
 
-	// Aap koi bhi information change kar rahe ho REACT App ke Andhar then the right way to do it is to SET THE INFORMATION CHANGE IN STATE
-	// Apne state mei voh cheej update kar dijiye
-
 	toggleLike = (id) => {
 		let index = this.state.movies.findIndex((el) => {
 			return el._id == id;
 		});
-		// hum change kar sakte they usi state ki array ke andhar par hum copy bana rahe kyuki company mei bola hota ki BUG ISSSUE hota hain
+
 		let currMovieArr = this.state.movies.map((el) => el);
 
 		if (currMovieArr[index].liked) {
@@ -32,6 +29,14 @@ class App extends React.Component {
 		}
 
 		this.setState({ movies: currMovieArr });
+	};
+
+	deleteMovie = (id) => {
+		let filteredArr = this.state.movies.filter((el) => {
+			return el._id !== id;
+		});
+
+		this.setState({ movies: filteredArr });
 	};
 
 	componentDidMount() {
@@ -64,7 +69,8 @@ class App extends React.Component {
 					<div class="col-9 p-4">
 						<Search />
 						<Table
-						    toggleLike = {this.toggleLike}
+							deleteMovie={this.deleteMovie}
+							toggleLike={this.toggleLike}
 							movieData={this.state.movies}
 							selectedFilter={this.state.selectedFilter}
 						/>
