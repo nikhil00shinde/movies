@@ -16,13 +16,23 @@ class Table extends React.Component {
 
 		let filteredMoviesArr = allMovies.filter((el) => {
 			if (currFilter == "All Genre") {
-				return el;
+				return true;
 			} else if (el.genre.name == currFilter) {
-				return el;
+				return true;
 			}
 		});
 
-		let arrToBeUsedInTable = filteredMoviesArr.slice(0, 4);
+		filteredMoviesArr = filteredMoviesArr.filter((el) => {
+			let movieTitle = el.title.toLowerCase();
+			let s = this.props.search.toLowerCase();
+
+			return movieTitle.includes(s);
+		});
+
+		let startIndex = (this.state.currPage - 1) * 4;
+		let endIndex = Math.min(this.state.currPage * 4, filteredMoviesArr.length);
+
+		let arrToBeUsedInTable = filteredMoviesArr.slice(startIndex, endIndex);
 
 		let numberOfPages = Math.ceil(filteredMoviesArr.length / 4);
 		return (
