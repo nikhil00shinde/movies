@@ -3,6 +3,10 @@ import Navbar from "./Navbar";
 import Filter from "./Filter";
 import Search from "./Search";
 import Table from "./Table";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "./Login";
+import Rentals from "./Rentals";
+import Customers from "./Customers";
 
 class App extends React.Component {
 	state = {
@@ -62,31 +66,46 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<Navbar />
+			<Router>
+				<div>
+					<Navbar />
 
-				<div className="row">
-					<Filter
-						handleFilter={this.setFilter}
-						selectedFilter={this.state.selectedFilter}
-						genreData={this.state.genre}
-					/>
-					<div class="col-9 p-4">
-						<Search
-							search={this.state.search}
-							updateSearch={this.updateSearch}
-							total={this.state.movies.length}
-						/>
-						<Table
-							search={this.state.search}
-							deleteMovie={this.deleteMovie}
-							toggleLike={this.toggleLike}
-							movieData={this.state.movies}
-							selectedFilter={this.state.selectedFilter}
-						/>
-					</div>
+					<Switch>
+						<Route exact path="/customers">
+							<Customers />
+						</Route>
+						<Route exact path="/rentals">
+							<Rentals />
+						</Route>
+						<Route exact path="/login">
+							<Login />
+						</Route>
+						<Route exact path="/">
+							<div className="row">
+								<Filter
+									handleFilter={this.setFilter}
+									selectedFilter={this.state.selectedFilter}
+									genreData={this.state.genre}
+								/>
+								<div class="col-9 p-4">
+									<Search
+										search={this.state.search}
+										updateSearch={this.updateSearch}
+										total={this.state.movies.length}
+									/>
+									<Table
+										search={this.state.search}
+										deleteMovie={this.deleteMovie}
+										toggleLike={this.toggleLike}
+										movieData={this.state.movies}
+										selectedFilter={this.state.selectedFilter}
+									/>
+								</div>
+							</div>
+						</Route>
+					</Switch>
 				</div>
-			</div>
+			</Router>
 		);
 	}
 }
